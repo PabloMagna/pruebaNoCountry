@@ -13,10 +13,12 @@ public class OrdenService implements IOrdenService{
     private OrdenRepository ordenRepository;
 
     public List<Orden> listarOrdenesPorConsumidor(Long idConsumidor){
-        return ordenRepository.listarOrdenesPorConsumidor(idConsumidor);
+       // return ordenRepository.listarOrdenesPorConsumidor(idConsumidor);
+       return ordenRepository.findAllByIdComprador(idConsumidor);
     }
 
     public List<Orden> listarOrdenesPorVendedor(Long idVendedor){
-        return ordenRepository.listarOrdenesPorVendedor(idVendedor);
+        //return ordenRepository.listarOrdenesPorVendedor(idVendedor);
+        return ordenRepository.findAllByIdVendedor(idVendedor);
     }
 }
