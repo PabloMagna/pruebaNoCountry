@@ -16,13 +16,13 @@ public class OrdenController {
     @Autowired
     private IOrdenService ordenService;
 
-    @GetMapping("/listarConsumidor/{idConsumidor}")
+    @GetMapping("/listarOrdenesConsumidor/{idConsumidor}")
     public List<Orden> listarOrdenesPorConsumidor(@PathVariable Long idConsumidor){
         List<Orden> ordenes = ordenService.listarOrdenesPorConsumidor(idConsumidor);
         return ordenes;
     }
 
-    @GetMapping("/listarVendedor/{idVendedor}")
+    @GetMapping("/listarOrdenesVendedor/{idVendedor}")
     public ResponseEntity<List<Orden>> listarOrdenesPorVendedor(@PathVariable Long idVendedor){
         List<Orden> ordenes = ordenService.listarOrdenesPorVendedor(idVendedor);
         return ResponseEntity.ok(ordenes);

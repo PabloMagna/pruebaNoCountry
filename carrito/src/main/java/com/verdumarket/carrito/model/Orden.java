@@ -32,6 +32,7 @@ public class Orden {
     @JoinColumn(name = "idCarrito")
     private Carrito carrito;
 
+
     @Enumerated(EnumType.STRING)
     private EstadoOrden estadoOrden;
 
