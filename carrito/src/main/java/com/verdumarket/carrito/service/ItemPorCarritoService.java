@@ -40,21 +40,25 @@ public class ItemPorCarritoService implements IItemPorCarritoService{
         // Creamos el ítem del carrito
         ItemPorCarrito item = new ItemPorCarrito();
 
-        ItemPorCarrito itemPorCarrito = itemPorCarritoRepository.retornarIdItemSiExiste(datos.getIdProducto(),
+        ItemPorCarrito itemDB = itemPorCarritoRepository.retornarIdItemSiExiste(datos.getIdProducto(),
                 carrito.getIdCarrito());
 
         item.setIdProducto(datos.getIdProducto());
         item.setNombreProducto(datos.getNombreProducto());
-        if (itemPorCarrito != null) {
+        item.setCarrito(carrito);
+        item.setEstadoItem(EstadoItem.ACTIVO);
+        if (itemDB != null) {
 
-            item.setIdItemPorCarrito(itemPorCarrito.getIdItemPorCarrito());
-            item.setCantidad(datos.getCantidad() + itemPorCarrito.getCantidad());
+            item.setIdItemPorCarrito(itemDB.getIdItemPorCarrito());
+            item.setCantidad(datos.getCantidad() + itemDB.getCantidad());
                 //sumamos big
             BigDecimal precioDatos = datos.getPrecio() != null ? datos.getPrecio() : BigDecimal.ZERO;
-            BigDecimal precioItemPorCarrito = itemPorCarrito.getPrecio() != null ? itemPorCarrito.getPrecio() : BigDecimal.ZERO;
+            BigDecimal precioItemPorCarrito = itemDB.getPrecio() != null ? itemDB.getPrecio() : BigDecimal.ZERO;
 
             BigDecimal nuevoPrecio = precioDatos.add(precioItemPorCarrito);
             item.setPrecio(nuevoPrecio);
+
+            itemPorCarritoRepository.save(item);
         }else{
             item.setPrecio(datos.getPrecio());
             item.setCantidad(datos.getCantidad());
@@ -63,7 +67,7 @@ public class ItemPorCarritoService implements IItemPorCarritoService{
         }
 
 
-        item.setEstadoItem(EstadoItem.ACTIVO);
+
 
 
         carrito.actualizarPrecioTotal();
