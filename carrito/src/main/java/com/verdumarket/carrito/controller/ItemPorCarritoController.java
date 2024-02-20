@@ -12,12 +12,6 @@ public class ItemPorCarritoController {
     @Autowired
     private IItemPorCarritoService itemPorCarritoService;
 
-    @PostMapping("/guardarItem")
-    public ResponseEntity<String> guardarItem(@RequestBody DatosCarritoItemsDTO datosCarritoItemsDTO){
-        itemPorCarritoService.GuardarItemCarrito(datosCarritoItemsDTO);
-        return ResponseEntity.ok("Agregado el carrito exitosamente");
-    }
-
     @GetMapping("/cancelarItem/{id}")
     public ResponseEntity<String> cancelarItem(@PathVariable Long id){
         itemPorCarritoService.cancelarItem(id);

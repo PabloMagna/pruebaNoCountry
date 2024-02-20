@@ -23,6 +23,7 @@ public class DatosCarritoItemsDTO {
     private String nombreProducto;
     private int cantidad;
     private BigDecimal precio;
+    //private BigDecimal precioEnvio; // no se usa por ahora
     //private EstadoItem estadoItem; //eliminable
 
     private Long idComprador;

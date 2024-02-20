@@ -23,7 +23,7 @@ public class Carrito {
 
     private Long idVendedor;
     private Long idComprador;
-    private BigDecimal precioEnvio;
+    //private BigDecimal precioEnvio; aun no se usa
     private BigDecimal precioTotal;
 
     @Enumerated(EnumType.STRING)
@@ -38,9 +38,11 @@ public class Carrito {
         BigDecimal totalItems = BigDecimal.ZERO;
         if (listadoItems != null) {
             for (ItemPorCarrito item : listadoItems) {
-                totalItems = totalItems.add(item.getPrecio());
+                if(item.getEstadoItem() == EstadoItem.ACTIVO)
+                      totalItems = totalItems.add(item.getPrecio());
             }
         }
-        this.precioTotal = totalItems.add(precioEnvio);
+        //this.precioTotal = totalItems.add(precioEnvio);
+        this.precioTotal = totalItems;
     }
 }

@@ -1,5 +1,6 @@
 package com.verdumarket.carrito.service;
 
+import com.verdumarket.carrito.dto.DatosCarritoItemsDTO;
 import com.verdumarket.carrito.model.Carrito;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface ICarritoService {
     Carrito buscarCarritoPorVendedor(Long idComprador, Long idVendedor);
 
     Carrito findById(Long id);
+
+    void GuardarItemCarrito(DatosCarritoItemsDTO datos);
 }
