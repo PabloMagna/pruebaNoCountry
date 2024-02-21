@@ -19,12 +19,19 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
-    private String contrasenia;
-    private String email;
+    private Long id;
+
     private String nombre;
+
+    private String email;
+
+    private String contrasenia;
+
     private String direccion;
+
     private String celular;
+
     private boolean esAdmin;
-    private EstadoUsuario estadoUsuarios;
+
+    private int estado;
 }

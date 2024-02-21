@@ -1,7 +1,5 @@
 package com.verdumarket.carrito.controller;
 
-import com.verdumarket.carrito.dto.DatosCarritoItemsDTO;
-import com.verdumarket.carrito.dto.DatosItemDTO;
 import com.verdumarket.carrito.service.IItemPorCarritoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

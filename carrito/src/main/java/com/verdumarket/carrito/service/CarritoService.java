@@ -7,6 +7,7 @@ import com.verdumarket.carrito.model.EstadoItem;
 import com.verdumarket.carrito.model.ItemPorCarrito;
 import com.verdumarket.carrito.repository.CarritoRepository;
 import com.verdumarket.carrito.repository.ItemPorCarritoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,7 @@ public class CarritoService implements ICarritoService{
 
 
     @Override
+    @Transactional
     public void GuardarItemCarrito(DatosCarritoItemsDTO datos) {
         Carrito carrito = obtenerOcrearCarrito(datos);
         ItemPorCarrito item = crearItemCarrito(datos, carrito);

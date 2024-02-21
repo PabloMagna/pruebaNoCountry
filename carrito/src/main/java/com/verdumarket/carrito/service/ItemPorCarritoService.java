@@ -1,9 +1,6 @@
 package com.verdumarket.carrito.service;
 
-import com.verdumarket.carrito.dto.DatosCarritoItemsDTO;
-import com.verdumarket.carrito.dto.DatosItemDTO;
 import com.verdumarket.carrito.model.Carrito;
-import com.verdumarket.carrito.model.EstadoCarrito;
 import com.verdumarket.carrito.model.EstadoItem;
 import com.verdumarket.carrito.model.ItemPorCarrito;
 import com.verdumarket.carrito.repository.CarritoRepository;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 @Service
 public class ItemPorCarritoService implements IItemPorCarritoService{
