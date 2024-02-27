@@ -15,4 +15,9 @@ public class ItemPorCarritoController {
         itemPorCarritoService.cancelarItem(id);
         return ResponseEntity.ok("Item Cancelado con éxito");
     }
+
+   /* @GetMapping("/modificarItem/{idItem}")
+    public ResponseEntity<String> modificarItem(@PathVariable Long idItem){
+
+    }*/
 }

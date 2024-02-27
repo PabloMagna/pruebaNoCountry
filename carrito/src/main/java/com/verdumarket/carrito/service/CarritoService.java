@@ -68,7 +68,7 @@ public class CarritoService implements ICarritoService{
 
     private ItemPorCarrito crearItemCarrito(DatosCarritoItemsDTO datos, Carrito carrito) {
         ItemPorCarrito item = new ItemPorCarrito();
-        ItemPorCarrito itemDB = itemPorCarritoRepository.retornarIdItemSiExiste(datos.getIdProducto(), carrito.getIdCarrito());
+        ItemPorCarrito itemDB = itemPorCarritoRepository.retornarItemSiExiste(datos.getIdProducto(), carrito.getIdCarrito());
 
         item.setIdProducto(datos.getIdProducto());
         item.setNombreProducto(datos.getNombreProducto());

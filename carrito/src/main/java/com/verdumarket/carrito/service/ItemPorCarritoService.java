@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
+
 
 @Service
 public class ItemPorCarritoService implements IItemPorCarritoService{
@@ -19,22 +21,33 @@ public class ItemPorCarritoService implements IItemPorCarritoService{
 
     @Override
     public void cancelarItem(Long id) {
-        ItemPorCarrito item = itemPorCarritoRepository.findById(id).orElse(null);
-        if(item != null){
-            item.setPrecio(new BigDecimal(0));
+        try {
+            ItemPorCarrito item = itemPorCarritoRepository.findById(id)
+                    .orElseThrow(() -> new NoSuchElementException("No se encontró ningún item con el ID: " + id));
+            item.setPrecio(BigDecimal.ZERO);
             item.setCantidad(0);
             item.setEstadoItem(EstadoItem.INACTIVO);
             itemPorCarritoRepository.save(item);
+
+            buscarCarritoYActualizarLista(item);
+        } catch (NoSuchElementException e) {
+            System.err.println("No se encontró ningún item con el ID: " + id);
+        } catch (Exception e) {
+            System.err.println("Error al cancelar el item del carrito");
+            e.printStackTrace();
         }
-        buscarCarritoYActualizarLista(item);
     }
 
     private void buscarCarritoYActualizarLista(ItemPorCarrito item){
-        Carrito carrito = carritoRepository.findById(item.getCarrito().getIdCarrito()).orElse(null);
-        if(carrito != null)
-            carrito.actualizarPrecioTotal();
+        try {
+            Carrito carrito = carritoRepository.findById(item.getCarrito().getIdCarrito()).orElse(null);
+            if(carrito != null)
+                carrito.actualizarPrecioTotal();
 
-        carritoRepository.save(carrito);
+            carritoRepository.save(carrito);
+        } catch (Exception e) {
+            System.err.println("Error al buscar el carrito y actualizar la lista de items");
+            e.printStackTrace();
+        }
     }
-
 }

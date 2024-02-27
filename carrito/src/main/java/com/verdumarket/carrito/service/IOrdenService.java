@@ -10,7 +10,6 @@ public interface IOrdenService {
     public List<Orden> listarOrdenesPorVendedor(Long idVendedor);
     public List<Orden> listarOrdenesPorConsumidor(Long idConsumidor);
 
-    public Orden crearOrden(Long idCarrito);
+    public Orden crearOrden(Long idCarrito, DatosOrdenDTO datosOrdenDTO);
 
-    Orden confirmacionOrden(DatosOrdenDTO datosOrden);
 }

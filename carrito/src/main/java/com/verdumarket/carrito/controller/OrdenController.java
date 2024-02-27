@@ -29,15 +29,10 @@ public class OrdenController {
         return ResponseEntity.ok(ordenes);
     }
 
-    @GetMapping("/crearOrdenPorIdCarrito/{idCarrito}")
-    public ResponseEntity<Orden> crearOrden(@PathVariable Long idCarrito){
-        Orden orden = ordenService.crearOrden(idCarrito);
+    @PostMapping("/crearOrdenPorIdCarrito/{idCarrito}")
+    public ResponseEntity<Orden> crearOrden(@PathVariable Long idCarrito, @RequestBody DatosOrdenDTO datosOrden){
+        Orden orden = ordenService.crearOrden(idCarrito, datosOrden);
         return ResponseEntity.ok(orden);
     }
 
-    @PostMapping("/confirmacionOrden")
-    public ResponseEntity<Orden> confirmacionOrden(@RequestBody DatosOrdenDTO datosOrden){
-        Orden orden = ordenService.confirmacionOrden(datosOrden);
-        return ResponseEntity.ok(orden);
-    }
 }

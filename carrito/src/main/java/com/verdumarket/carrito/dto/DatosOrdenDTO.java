@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class DatosOrdenDTO {
-    private Long idOrden;
     private String celularVendedor;
     private String direccion;
     private String celularComprador;

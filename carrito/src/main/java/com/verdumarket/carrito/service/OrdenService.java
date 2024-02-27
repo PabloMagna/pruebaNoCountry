@@ -35,47 +35,69 @@ public class OrdenService implements IOrdenService{
         return ordenRepository.findAllByIdVendedorAndEstadoOrdenNot(idVendedor,EstadoOrden.INACTIVO);
     }
 
-    public Orden crearOrden(Long idCarrito){
-        Carrito carrito = carritoRepository.findById(idCarrito).orElse(null);
-        UsuarioDTO comprador = usuarioAPICliente.getUsuario(carrito.getIdComprador());
-        UsuarioDTO vendedor = usuarioAPICliente.getUsuario(carrito.getIdVendedor());
+    @Override
+    public Orden crearOrden(Long idCarrito, DatosOrdenDTO datosOrden) {
+        try {
+            Carrito carrito = carritoRepository.findById(idCarrito)
+                    .orElseThrow(() -> new IllegalArgumentException("El carrito con ID " + idCarrito + " no fue encontrado"));
 
+            UsuarioDTO comprador = usuarioAPICliente.getUsuario(carrito.getIdComprador());
+            UsuarioDTO vendedor = usuarioAPICliente.getUsuario(carrito.getIdVendedor());
 
-        Orden orden = Orden.builder().
-                estadoOrden(EstadoOrden.INACTIVO).
-                direccion(comprador.getDireccion()). //puede ser null
-                celularComprador(comprador.getCelular()). //puede ser null
-                celularVendedor(vendedor.getCelular()). //puede ser null
-                idComprador(comprador.getId()).
-                idVendedor(vendedor.getId()).
-                fechaHora(ZonedDateTime.now(ZoneId.systemDefault())).
-                carrito(carrito).
-                nombre(comprador.getNombre()). //puede ser null
-                precio(carrito.getPrecioTotal()).
-                build();
+            Orden orden = Orden.builder()
+                    .estadoOrden(EstadoOrden.PENDIENTE)
+                    .direccion(comprador.getDireccion())
+                    .celularComprador(comprador.getCelular())
+                    .celularVendedor(vendedor.getCelular())
+                    .idComprador(comprador.getId())
+                    .idVendedor(vendedor.getId())
+                    .fechaHora(ZonedDateTime.now(ZoneId.systemDefault()))
+                    .carrito(carrito)
+                    .nombre(comprador.getNombre())
+                    .precio(carrito.getPrecioTotal())
+                    .build();
 
-        ordenRepository.save(orden);
-        return orden;
+            actualizarDatosOrden(orden, datosOrden);
+            verificarDatosNoNulos(orden);
+            ordenRepository.save(orden);
+            return orden;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al crear la orden: " + e.getMessage(), e);
+        }
     }
 
-    @Override
-    public Orden confirmacionOrden(DatosOrdenDTO datosOrden) {
-        Orden orden = ordenRepository.findById(datosOrden.getIdOrden()).orElse(null);
 
-        if(datosOrden.getCelularComprador()!=null)
+    private void actualizarDatosOrden(Orden orden, DatosOrdenDTO datosOrden) {
+        if (datosOrden.getCelularComprador() != null) {
             orden.setCelularComprador(datosOrden.getCelularComprador());
-        if(datosOrden.getCelularVendedor()!=null)
+        }
+        if (datosOrden.getCelularVendedor() != null) {
             orden.setCelularVendedor(datosOrden.getCelularVendedor());
-        if(datosOrden.getDireccion()!=null)
+        }
+        if (datosOrden.getDireccion() != null) {
             orden.setDireccion(datosOrden.getDireccion());
-        if(datosOrden.getNombre()!=null)
+        }
+        if (datosOrden.getNombre() != null) {
             orden.setNombre(datosOrden.getNombre());
+        }
+    }
 
-
-        //ConfirmaciónOrden
-        orden.setEstadoOrden(EstadoOrden.PENDIENTE);
-
-        ordenRepository.saveAndFlush(orden);
-        return  orden;
+    private void verificarDatosNoNulos(Orden orden) {
+        if (orden.getCelularComprador() == null) {
+            throw new IllegalArgumentException("El celular del comprador no puede ser nulo");
+        }
+        if (orden.getCelularVendedor() == null) {
+            throw new IllegalArgumentException("El celular del vendedor no puede ser nulo");
+        }
+        if (orden.getDireccion() == null) {
+            throw new IllegalArgumentException("La dirección no puede ser nula");
+        }
+        if (orden.getNombre() == null) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo");
+        }
     }
 }

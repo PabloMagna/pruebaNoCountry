@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface ItemPorCarritoRepository extends JpaRepository<ItemPorCarrito, Long> {
 
     @Query("SELECT i FROM ItemPorCarrito i WHERE i.idProducto = :idProducto AND i.carrito.idCarrito = :idCarrito")
-    public ItemPorCarrito retornarIdItemSiExiste(Long idProducto, Long idCarrito);
+    public ItemPorCarrito retornarItemSiExiste(Long idProducto, Long idCarrito);
 }
